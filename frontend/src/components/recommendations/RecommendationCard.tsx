@@ -1,0 +1,87 @@
+"use client";
+
+import { RecommendationItem } from "@/types";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Star, TrendingUp, Heart, Users, Sparkles, Brain } from "lucide-react";
+import { motion } from "framer-motion";
+
+interface Props {
+  item: RecommendationItem;
+  index?: number;
+  onClick?: () => void;
+}
+
+const algoIcons: Record<string, typeof Star> = {
+  popularity: TrendingUp,
+  content_based: Heart,
+  collaborative: Users,
+  matrix_factorization: Brain,
+  hybrid: Sparkles,
+};
+
+const algoColors: Record<string, string> = {
+  popularity: "from-amber-500 to-orange-500",
+  content_based: "from-blue-500 to-cyan-500",
+  collaborative: "from-green-500 to-emerald-500",
+  matrix_factorization: "from-purple-500 to-violet-500",
+  hybrid: "from-red-500 to-pink-500",
+};
+
+export function RecommendationCard({ item, index = 0, onClick }: Props) {
+  const Icon = algoIcons[item.algorithm] || Sparkles;
+  const gradient = algoColors[item.algorithm] || "from-gray-500 to-gray-600";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.3 }}
+      whileHover={{ y: -4 }}
+      onClick={onClick}
+      className="cursor-pointer"
+    >
+      <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div className="relative aspect-[3/4] bg-gray-100 dark:bg-gray-800 overflow-hidden">
+          {item.image_url ? (
+            <img src={item.image_url} alt={item.title} className="h-full w-full object-cover" loading="lazy" />
+          ) : (
+            <div className={`h-full w-full bg-gradient-to-br ${gradient} flex items-center justify-center`}>
+              <Icon className="h-16 w-16 text-white/80" />
+            </div>
+          )}
+          <div className="absolute top-2 right-2">
+            <Badge className={`bg-gradient-to-r ${gradient} text-white border-0`}>
+              {Math.round(item.score * 100)}% match
+            </Badge>
+          </div>
+          <div className="absolute top-2 left-2">
+            <Badge variant="secondary" className="bg-white/90 dark:bg-gray-900/90">
+              <Icon className="h-3 w-3 mr-1" />
+              {item.algorithm.replace("_", " ")}
+            </Badge>
+          </div>
+        </div>
+        <div className="p-3">
+          <h3 className="font-semibold text-sm text-gray-900 dark:text-white line-clamp-1">{item.title}</h3>
+          <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-0.5">
+              <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">{item.avg_rating}</span>
+            </div>
+            {item.genres && (
+              <span className="text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{item.genres.split(",")[0]}</span>
+            )}
+          </div>
+          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 line-clamp-2">{item.reason}</p>
+          <div className="mt-2 flex items-center gap-2">
+            <div className="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+              <div className="h-full rounded-full bg-primary-500" style={{ width: `${item.similarity_pct}%` }} />
+            </div>
+            <span className="text-[10px] text-gray-400">{item.similarity_pct}%</span>
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
