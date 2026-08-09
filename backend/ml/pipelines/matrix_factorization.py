@@ -104,7 +104,7 @@ class MatrixFactorizationRecommender:
                 continue
             scored_items.append((original_id, float(np.clip(score, 1.0, 5.0))))
 
-        scored_items.sort(key=lambda x: x[1], reverse=True)[:limit]
+        scored_items = sorted(scored_items, key=lambda x: x[1], reverse=True)[:limit]
 
         recommendations = []
         for item_id, score in scored_items:
@@ -129,6 +129,8 @@ class MatrixFactorizationRecommender:
         return recommendations
 
     def _popular_fallback(self, limit: int, exclude_ids: Optional[list[int]]) -> list[dict]:
+        if self.items_df is None:
+            return []
         df = self.items_df.copy()
         if exclude_ids:
             df = df[~df["item_id"].isin(exclude_ids)]

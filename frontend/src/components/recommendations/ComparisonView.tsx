@@ -4,7 +4,7 @@ import { useCompareAlgorithms } from "@/hooks/useRecommendations";
 import { RecommendationCard } from "./RecommendationCard";
 import { RecommendationSkeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { ALGORITHM_LABELS, ALGORITHM_COLORS, Algorithm } from "@/types";
+import { ALGORITHM_LABELS, Algorithm, RecommendationItem } from "@/types";
 import { motion } from "framer-motion";
 
 export function ComparisonView() {
@@ -31,14 +31,13 @@ export function ComparisonView() {
           className="space-y-3"
         >
           <div className="flex items-center gap-3">
-            <div className="h-3 w-3 rounded-full" style={{ backgroundColor: ALGORITHM_COLORS[algo] }} />
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
               {ALGORITHM_LABELS[algo]}
             </h3>
             <Badge variant="secondary">{data.results[algo]?.length || 0} items</Badge>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-            {data.results[algo]?.slice(0, 5).map((item, j) => (
+            {data.results[algo]?.slice(0, 5).map((item: RecommendationItem, j: number) => (
               <RecommendationCard key={item.item_id} item={{ ...item, algorithm: algo }} index={j} />
             ))}
           </div>
