@@ -6,7 +6,7 @@ import { RecommendationCard } from "@/components/recommendations/RecommendationC
 import { RecommendationSkeleton } from "@/components/ui/skeleton";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Search as SearchIcon, Filter, X } from "lucide-react";
+import { Search as SearchIcon, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { debounce } from "@/lib/utils";
 
@@ -29,10 +29,7 @@ export default function SearchPage() {
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <SearchIcon className="h-8 w-8 text-primary-600" />
-          Search
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Search</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">Discover movies, books, music, games, and courses</p>
       </motion.div>
 
@@ -44,7 +41,7 @@ export default function SearchPage() {
             placeholder="Search by title, genre, or keyword..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white py-2.5 pl-10 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-white dark:border-gray-600 dark:bg-gray-800 dark:text-white"
           />
           {query && (
             <button onClick={() => setQuery("")} className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
@@ -57,8 +54,8 @@ export default function SearchPage() {
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setCategory(undefined)}
-          className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-            !category ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400"
+          className={`border-b-2 px-3 py-1 text-sm font-medium transition-colors ${
+            !category ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white"
           }`}
         >
           All
@@ -67,8 +64,8 @@ export default function SearchPage() {
           <button
             key={cat.name}
             onClick={() => setCategory(cat.name === category ? undefined : cat.name)}
-            className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-              category === cat.name ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400"
+            className={`border-b-2 px-3 py-1 text-sm font-medium transition-colors ${
+              category === cat.name ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white"
             }`}
           >
             {cat.name} ({cat.count})
@@ -105,7 +102,6 @@ export default function SearchPage() {
         </>
       ) : (
         <Card className="p-12 text-center">
-          <SearchIcon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
           <p className="text-gray-500 text-lg">Search for items</p>
           <p className="text-gray-400 text-sm mt-2">Type a query or select a category to explore</p>
         </Card>

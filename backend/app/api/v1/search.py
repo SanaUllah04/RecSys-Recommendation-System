@@ -13,7 +13,7 @@ router = APIRouter(prefix="/search", tags=["Search"])
 async def search_items(
     q: str = Query("", description="Search query"),
     category: str = Query(None, description="Filter by category"),
-    sort_by: str = Query("popularity", regex="^(popularity|rating|date|title)$"),
+    sort_by: str = Query("popularity", pattern="^(popularity|rating|date|title)$"),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
     db: AsyncSession = Depends(get_db),

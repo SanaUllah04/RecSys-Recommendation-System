@@ -105,6 +105,8 @@ class CollaborativeRecommender:
         return recommendations
 
     def _fallback_recommendations(self, limit: int, exclude_ids: Optional[list[int]]) -> list[dict]:
+        if self.items_df is None:
+            return []
         df = self.items_df.copy()
         if exclude_ids:
             df = df[~df["item_id"].isin(exclude_ids)]

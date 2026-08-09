@@ -7,35 +7,26 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { RecommendationSkeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Sparkles, TrendingUp, Star, Clock, Zap, Target } from "lucide-react";
 import Link from "next/link";
 
-function Section({ title, icon: Icon, children, href }: { title: string; icon: any; children: React.ReactNode; href?: string }) {
+function Section({ title, children, href }: { title: string; children: React.ReactNode; href?: string }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Icon className="h-5 w-5 text-primary-600" />
-          <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
-        </div>
-        {href && <Link href={href} className="text-sm text-primary-600 hover:underline">View all</Link>}
+        <h2 className="text-lg font-bold text-gray-900 dark:text-white">{title}</h2>
+        {href && <Link href={href} className="text-sm text-gray-300 underline underline-offset-4 hover:text-white">View all</Link>}
       </div>
       {children}
     </div>
   );
 }
 
-function StatCard({ label, value, icon: Icon, color }: { label: string; value: string | number; icon: any; color: string }) {
+function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
     <Card>
-      <CardContent className="flex items-center gap-4 p-4">
-        <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${color}`}>
-          <Icon className="h-6 w-6 text-white" />
-        </div>
-        <div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
-        </div>
+      <CardContent className="p-4">
+        <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
       </CardContent>
     </Card>
   );
@@ -57,13 +48,13 @@ export default function DashboardPage() {
       </motion.div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Recommended" value={hybridRecs?.total_count || "—"} icon={Sparkles} color="bg-gradient-to-br from-primary-500 to-primary-700" />
-        <StatCard label="Trending" value={trending?.length || "—"} icon={TrendingUp} color="bg-gradient-to-br from-amber-500 to-orange-600" />
-        <StatCard label="Top Rated" value={topRated?.length || "—"} icon={Star} color="bg-gradient-to-br from-green-500 to-emerald-600" />
-        <StatCard label="Algorithms" value="5" icon={Zap} color="bg-gradient-to-br from-purple-500 to-violet-600" />
+        <StatCard label="Recommended" value={hybridRecs?.total_count || "—"} />
+        <StatCard label="Trending" value={trending?.length || "—"} />
+        <StatCard label="Top Rated" value={topRated?.length || "—"} />
+        <StatCard label="Algorithms" value="5" />
       </div>
 
-      <Section title="Recommended for You" icon={Target} href="/recommendations">
+      <Section title="Recommended for You" href="/recommendations">
         {loadingHybrid ? (
           <RecommendationSkeleton />
         ) : hybridRecs?.recommendations?.length ? (
@@ -82,7 +73,7 @@ export default function DashboardPage() {
         )}
       </Section>
 
-      <Section title="Trending Now" icon={TrendingUp}>
+      <Section title="Trending Now">
         {loadingTrending ? (
           <RecommendationSkeleton />
         ) : (
@@ -103,7 +94,7 @@ export default function DashboardPage() {
         )}
       </Section>
 
-      <Section title="Top Rated" icon={Star}>
+      <Section title="Top Rated">
         {loadingTopRated ? (
           <RecommendationSkeleton />
         ) : (

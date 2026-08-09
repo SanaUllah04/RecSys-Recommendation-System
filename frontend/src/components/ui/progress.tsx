@@ -15,7 +15,7 @@ export function Progress({ value, max = 100, className, showLabel = false }: Pro
       {showLabel && <span className="text-xs text-gray-500 dark:text-gray-400">{Math.round(percentage)}%</span>}
       <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
         <div
-          className="h-full rounded-full bg-primary-600 transition-all duration-500"
+          className="h-full rounded-full bg-white transition-all duration-500"
           style={{ width: `${percentage}%` }}
         />
       </div>

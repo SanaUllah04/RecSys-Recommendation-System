@@ -6,7 +6,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BarChart3 } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function RegisterPage() {
@@ -30,8 +29,8 @@ export default function RegisterPage() {
     <div className="flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-600">
-            <BarChart3 className="h-8 w-8 text-white" />
+          <div className="mx-auto mb-4 flex items-center justify-center">
+            <img src="/logo.svg" alt="RecSys" className="h-16 w-16" />
           </div>
           <CardTitle className="text-2xl">Create Account</CardTitle>
           <p className="text-sm text-gray-500 dark:text-gray-400">Join the recommendation platform</p>
@@ -47,7 +46,7 @@ export default function RegisterPage() {
             </Button>
           </form>
           <div className="mt-3 text-center text-sm">
-            <Link href="/auth/login" className="text-primary-600 hover:underline">Already have an account? Sign in</Link>
+            <Link href="/auth/login" className="text-white underline underline-offset-4 hover:text-gray-300">Already have an account? Sign in</Link>
           </div>
         </CardContent>
       </Card>

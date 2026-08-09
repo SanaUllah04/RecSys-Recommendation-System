@@ -26,10 +26,10 @@ settings = get_settings()
 class MLPipeline:
     def __init__(self):
         self.hybrid = HybridRecommender()
-        self.popularity = PopularityRecommender()
-        self.content_based = ContentBasedRecommender()
-        self.collaborative = CollaborativeRecommender()
-        self.matrix_factorization = MatrixFactorizationRecommender()
+        self.popularity = self.hybrid.popularity
+        self.content_based = self.hybrid.content_based
+        self.collaborative = self.hybrid.collaborative
+        self.matrix_factorization = self.hybrid.matrix_factorization
         self.is_trained = False
         self.model_dir = settings.ML_MODEL_DIR
         os.makedirs(self.model_dir, exist_ok=True)

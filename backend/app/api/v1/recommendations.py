@@ -11,7 +11,7 @@ router = APIRouter(prefix="/recommendations", tags=["Recommendations"])
 
 @router.get("/me")
 async def get_my_recommendations(
-    algorithm: str = Query("hybrid", regex="^(popularity|content_based|collaborative|matrix_factorization|hybrid)$"),
+    algorithm: str = Query("hybrid", pattern="^(popularity|content_based|collaborative|matrix_factorization|hybrid)$"),
     limit: int = Query(20, ge=1, le=50),
     db: AsyncSession = Depends(get_db),
     current_user: User = Depends(get_current_user),

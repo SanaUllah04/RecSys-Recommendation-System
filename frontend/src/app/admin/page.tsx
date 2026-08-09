@@ -9,27 +9,18 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ALGORITHM_LABELS, Algorithm } from "@/types";
 import { motion } from "framer-motion";
-import {
-  Users, Package, Star, BarChart3, Settings, Play, Brain,
-  TrendingUp, Activity, Database, Clock, Cpu
-} from "lucide-react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js";
 import { Pie, Bar } from "react-chartjs-2";
 import toast from "react-hot-toast";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
-function StatCard({ label, value, icon: Icon, color }: { label: string; value: string | number; icon: any; color: string }) {
+function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
     <Card>
-      <CardContent className="flex items-center gap-4 p-5">
-        <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${color}`}>
-          <Icon className="h-6 w-6 text-white" />
-        </div>
-        <div>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
-        </div>
+      <CardContent className="p-5">
+        <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
+        <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
       </CardContent>
     </Card>
   );
@@ -46,7 +37,6 @@ export default function AdminPage() {
     return (
       <div className="flex h-[60vh] items-center justify-center">
         <Card className="p-8 text-center">
-          <Settings className="h-12 w-12 text-gray-400 mx-auto mb-4" />
           <p className="text-lg font-semibold text-gray-900 dark:text-white">Admin Access Required</p>
           <p className="text-gray-500 mt-2">You need admin privileges to access this page</p>
         </Card>
@@ -69,24 +59,21 @@ export default function AdminPage() {
   return (
     <div className="space-y-6">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-          <Settings className="h-8 w-8 text-primary-600" />
-          Admin Dashboard
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
         <p className="text-gray-500 dark:text-gray-400 mt-1">Manage models, users, and system configuration</p>
       </motion.div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatCard label="Total Users" value={stats?.total_users || "—"} icon={Users} color="bg-gradient-to-br from-blue-500 to-blue-700" />
-        <StatCard label="Total Items" value={stats?.total_items || "—"} icon={Package} color="bg-gradient-to-br from-green-500 to-green-700" />
-        <StatCard label="Interactions" value={stats?.total_interactions || "—"} icon={Activity} color="bg-gradient-to-br from-purple-500 to-purple-700" />
-        <StatCard label="Avg Rating" value={stats?.avg_rating ? `${stats.avg_rating}★` : "—"} icon={Star} color="bg-gradient-to-br from-amber-500 to-orange-600" />
+        <StatCard label="Total Users" value={stats?.total_users || "—"} />
+        <StatCard label="Total Items" value={stats?.total_items || "—"} />
+        <StatCard label="Interactions" value={stats?.total_interactions || "—"} />
+        <StatCard label="Avg Rating" value={stats?.avg_rating || "—"} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Cpu className="h-5 w-5" /> Train Model</CardTitle>
+            <CardTitle>Train Model</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex gap-2 flex-wrap">
@@ -94,8 +81,8 @@ export default function AdminPage() {
                 <button
                   key={algo}
                   onClick={() => setTrainingAlgo(algo)}
-                  className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
-                    trainingAlgo === algo ? "bg-primary-600 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400"
+                  className={`border-b-2 px-3 py-1.5 text-sm font-medium transition-colors ${
+                    trainingAlgo === algo ? "border-white text-white" : "border-transparent text-gray-400 hover:text-white"
                   }`}
                 >
                   {ALGORITHM_LABELS[algo]}
@@ -103,7 +90,6 @@ export default function AdminPage() {
               ))}
             </div>
             <Button onClick={handleTrain} disabled={trainMutation.isPending} className="w-full">
-              <Play className="h-4 w-4 mr-2" />
               {trainMutation.isPending ? "Training..." : `Train ${ALGORITHM_LABELS[trainingAlgo as Algorithm]} Model`}
             </Button>
           </CardContent>
@@ -111,7 +97,7 @@ export default function AdminPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><Database className="h-5 w-5" /> Models</CardTitle>
+            <CardTitle>Models</CardTitle>
           </CardHeader>
           <CardContent>
             {loadingModels ? (
@@ -138,7 +124,7 @@ export default function AdminPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><BarChart3 className="h-5 w-5" /> Categories Distribution</CardTitle>
+            <CardTitle>Categories Distribution</CardTitle>
           </CardHeader>
           <CardContent>
             {stats?.top_categories?.length ? (
@@ -148,7 +134,7 @@ export default function AdminPage() {
                     labels: stats.top_categories.map((c) => c.name),
                     datasets: [{
                       data: stats.top_categories.map((c) => c.count),
-                      backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4"],
+                      backgroundColor: ["#ffffff", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899", "#06b6d4"],
                     }],
                   }}
                   options={{ responsive: true, maintainAspectRatio: false, plugins: { legend: { position: "bottom", labels: { color: "#94a3b8" } } } }}
@@ -162,7 +148,7 @@ export default function AdminPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2"><TrendingUp className="h-5 w-5" /> Interaction Types</CardTitle>
+            <CardTitle>Interaction Types</CardTitle>
           </CardHeader>
           <CardContent>
             {stats?.interaction_types?.length ? (
@@ -173,7 +159,7 @@ export default function AdminPage() {
                     datasets: [{
                       label: "Count",
                       data: stats.interaction_types.map((i) => i.count),
-                      backgroundColor: "#3b82f6",
+                      backgroundColor: "#ffffff",
                       borderRadius: 6,
                     }],
                   }}

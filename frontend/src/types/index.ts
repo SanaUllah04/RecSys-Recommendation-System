@@ -49,6 +49,11 @@ export interface RecommendationResponse {
   response_time_ms?: number;
 }
 
+export interface ComparisonResponse {
+  results: Record<Algorithm, RecommendationItem[]>;
+  generated_at?: string;
+}
+
 export interface TokenResponse {
   access_token: string;
   refresh_token: string;
@@ -100,7 +105,7 @@ export const ALGORITHM_LABELS: Record<Algorithm, string> = {
 
 export const ALGORITHM_COLORS: Record<Algorithm, string> = {
   popularity: "#f59e0b",
-  content_based: "#3b82f6",
+  content_based: "#ffffff",
   collaborative: "#10b981",
   matrix_factorization: "#8b5cf6",
   hybrid: "#ef4444",

@@ -7,7 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { BarChart3, Mail, Lock } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
@@ -33,8 +33,8 @@ export default function LoginPage() {
     <div className="flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-600">
-            <BarChart3 className="h-8 w-8 text-white" />
+          <div className="mx-auto mb-4 flex items-center justify-center">
+            <img src="/logo.svg" alt="RecSys" className="h-16 w-16" />
           </div>
           <CardTitle className="text-2xl">Welcome Back</CardTitle>
           <p className="text-sm text-gray-500 dark:text-gray-400">Sign in to your recommendation account</p>
@@ -71,7 +71,7 @@ export default function LoginPage() {
             Demo: admin@recommendation.ai / admin123
           </div>
           <div className="mt-3 text-center text-sm">
-            <Link href="/auth/register" className="text-primary-600 hover:underline">Create an account</Link>
+            <Link href="/auth/register" className="text-white underline underline-offset-4 hover:text-gray-300">Create an account</Link>
           </div>
         </CardContent>
       </Card>
